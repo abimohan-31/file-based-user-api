@@ -4,5 +4,8 @@ const userRoutes = require("./routes/userRoutes");
 const app = express();
 app.use(bodyParser.json());
 app.use("/api/users", userRoutes);
+const users = require("./api/users.json");
+
 const PORT = 5000;
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

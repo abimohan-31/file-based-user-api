@@ -37,6 +37,9 @@ export const createUser = (req, res) => {
 
   const users = readUsers();
 
+  const emailCheck = users.find((user) => user.email === email);
+  if (emailCheck) return res.status(404).json({ error: "Email already exit" });
+
   // Create new user
   const newUser = {
     id:

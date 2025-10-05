@@ -54,3 +54,23 @@ export const createUser = (req, res) => {
 
   res.status(201).json({ message: "User added Successfully" });
 };
+
+export const updateUser = (req, res) => {
+  const users = readUsers();
+
+  const emailCheck = users.find((user) => user.email === req.body.email);
+  if (!emailCheck) {
+    return res.status(400).json({ error: "Can't find the user" });
+  }
+
+  const newUser = {
+    id: req.params.id,
+    name: req.body.name,
+  };
+
+  users.push(newUser);
+
+  writeUsers(users);
+
+  res.status(201).json({ message: "User updated Successfully" });
+};

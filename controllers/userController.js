@@ -82,7 +82,8 @@ export const updateUser = (req, res) => {
 export const deleteUser = (req, res) => {
   const users = readUsers();
 
-  const requestedId = req.params.id;
+  const requestedId = parseInt(req.params.id);
+  console.log(typeof requestedId);
 
   const confirmation = users.find((user) => user.id === requestedId);
   if (!confirmation) return res.status(404).json({ error: "user not found" });

@@ -56,21 +56,32 @@ export const createUser = (req, res) => {
 };
 
 export const updateUser = (req, res) => {
+  const id = req.params.id;
+  const { name, email } = req.body;
+
   const users = readUsers();
 
-  const emailCheck = users.find((user) => user.email === req.body.email);
-  if (!emailCheck) {
-    return res.status(400).json({ error: "Can't find the user" });
+  const userUpdate = users.find((user) => user.id === id);
+
+  const emailCheck = users.find(
+    (user) => user.email === email && user.id === id
+  );
+  if (emailCheck) {
+    return res.status(400).json({ error: "Already registered" });
   }
 
-  const newUser = {
-    id: req.params.id,
-    name: req.body.name,
-  };
-
-  users.push(newUser);
+  userUpdate.name = req.body.name;
+  userUpdate.email = req.body.email;
+  // users.push(newUser);
 
   writeUsers(users);
 
   res.status(201).json({ message: "User updated Successfully" });
+};
+
+export const deleteUser = (reqq, res) => {
+  const id = req.params.id;
+  const { name, email } = req.body;
+
+  const users = readUsers();
 };

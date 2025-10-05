@@ -61,7 +61,7 @@ export const updateUser = (req, res) => {
 
   const users = readUsers();
 
-  const userUpdate = users.find((user) => user.id === id);
+  const confirmation = users.find((user) => user.id === id);
 
   const emailCheck = users.find(
     (user) => user.email === email && user.id === id
@@ -70,8 +70,8 @@ export const updateUser = (req, res) => {
     return res.status(400).json({ error: "Couldn't find the user " });
   }
 
-  userUpdate.name = req.body.name;
-  userUpdate.email = req.body.email;
+  confirmation.name = req.body.name;
+  confirmation.email = req.body.email;
   // users.push(newUser);
 
   writeUsers(users);
@@ -79,9 +79,16 @@ export const updateUser = (req, res) => {
   res.status(201).json({ message: "User updated Successfully" });
 };
 
-export const deleteUser = (reqq, res) => {
-  const id = req.params.id;
-  const { name, email } = req.body;
-
+export const deleteUser = (req, res) => {
   const users = readUsers();
+
+  const requestedId = req.params.id;
+
+  const confirmation = users.find((user) => user.id === requestedId);
+  if (!confirmation) return res.status(404).json({ error: "user not found" });
+
+  const deletingUser = users.filter((user) => user.id !== requestedId);
+  writeUsers(deletingUser);
+
+  res.status(201).json({ message: "User deleted Successfully" });
 };

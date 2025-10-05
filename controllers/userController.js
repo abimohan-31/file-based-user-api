@@ -66,8 +66,8 @@ export const updateUser = (req, res) => {
   const emailCheck = users.find(
     (user) => user.email === email && user.id === id
   );
-  if (emailCheck) {
-    return res.status(400).json({ error: "Already registered" });
+  if (!emailCheck) {
+    return res.status(400).json({ error: "Couldn't find the user " });
   }
 
   userUpdate.name = req.body.name;

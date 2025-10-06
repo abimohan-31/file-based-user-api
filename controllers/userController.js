@@ -55,13 +55,12 @@ export const createUser = (req, res) => {
   res.status(201).json({ message: "User added Successfully" });
 };
 
-export const updateUser = (req, res) => {
-  const { id, email } = req.body;
-
+export const updateUser = async (req, res) => {
+  const id = req.params.id;
   const users = readUsers();
 
-  const confirmation = users.find((user) => user.id === id);
-  if (!confirmation) {
+  const userId = users.find((user) => user.id === id);
+  if (!userId) {
     return res.status(400).json({ error: "Couldn't find the user " });
   }
 
@@ -70,7 +69,9 @@ export const updateUser = (req, res) => {
     return res.status(400).json({ error: "Couldn't find the user " });
   }
 
-  // users.push(newUser);
+  const update = await users.find(id, req.body);
+
+  users.push(update);
 
   writeUsers(users);
 

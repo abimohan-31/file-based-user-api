@@ -56,22 +56,20 @@ export const createUser = (req, res) => {
 };
 
 export const updateUser = (req, res) => {
-  const id = req.params.id;
-  const { name, email } = req.body;
+  const { id, email } = req.body;
 
   const users = readUsers();
 
   const confirmation = users.find((user) => user.id === id);
+  if (!confirmation) {
+    return res.status(400).json({ error: "Couldn't find the user " });
+  }
 
-  const emailCheck = users.find(
-    (user) => user.email === email && user.id === id
-  );
+  const emailCheck = users.find((user) => user.email === email);
   if (!emailCheck) {
     return res.status(400).json({ error: "Couldn't find the user " });
   }
 
-  confirmation.name = req.body.name;
-  confirmation.email = req.body.email;
   // users.push(newUser);
 
   writeUsers(users);

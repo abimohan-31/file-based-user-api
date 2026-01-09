@@ -7,9 +7,9 @@ const app = express();
 app.use(express.json());
 app.use("/api/users", userRoutes);
 
-// app.get("/", (req, res) => {
-//   res.send("Express test");
-// });
+app.get("/", (req, res) => {
+  res.send("Express test");
+});
 
 const PORT = 5000;
 app.listen(PORT, () =>
